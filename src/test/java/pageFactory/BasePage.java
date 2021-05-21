@@ -22,15 +22,21 @@ public class BasePage {
         WebDriverWait wait = new WebDriverWait(driver, defaultTimeOut);
         wait.until(ExpectedConditions.visibilityOf(element));
     }
+    public void waitForElementClickable(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(driver, defaultTimeOut);
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+    }
     public void waitAndEnterText(WebElement element,String text)
     {
         waitForElementPresent(element);
+        //waitForElementClickable(element);
         element.clear();
         element.sendKeys(text);
     }
     public void waitAndClick(WebElement element)
     {
         waitForElementPresent(element);
+        waitForElementClickable(element);
         element.click();
         waitForPageLoad();
     }
@@ -42,7 +48,7 @@ public class BasePage {
     }
     public void waitForPageLoad()
     {
-        Object wait = new WebDriverWait(driver, 30).until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));;
+        Object wait = new WebDriverWait(driver, 30).until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
 
     }
     public void waitForPageTitle(String title)
@@ -56,9 +62,13 @@ public class BasePage {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(pageLoadCondition);
     }
-    public void WaitForModal(WebElement modal)
+    public void waitForModal(WebElement modal)
     {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(ExpectedConditions.visibilityOf(modal));
+    }
+
+    public  String getElementText(WebElement element) {
+        return element.getText();
     }
 }
